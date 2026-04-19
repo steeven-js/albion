@@ -50,6 +50,9 @@ Mon journal de bord personnel pour Albion Online en solo.
 - [Donjons solo (Solo Dungeons)](zones/donjons-solo.md)
 - [Itinéraires zones rouges](zones/itineraires.md)
 
+### Outils
+- [🧮 Calculateur (récolte / revente / craft / EV zone rouge)](tools/calculateur/index.html)
+
 ### Ressources
 - [Lexique FR/EN](lexique.md)
 - [Liens utiles](liens-utiles.md)
