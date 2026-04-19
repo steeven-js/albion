@@ -4,6 +4,42 @@ Plan de progression long terme adapté à un profil farmer solo PvE.
 
 ---
 
+## Étape 0 — Débloquer les 10 nœuds T2 du Destiny Board (30-45 min) 🆕
+
+**Objectif** : ouvrir les 5 professions de récolte + les 5 de raffinage au T2 pour accéder au reste de l'arbre.
+
+### Les 10 nœuds à 100 fame chacun
+**Récolte T2** (bleu) : bois · minerai · fibre · peau · pierre
+**Raffinage T2** (vert) : planches · lingot · tissu · cuir · bloc de pierre
+
+### Zones de farm par ressource (starter zones, bleues)
+
+Chaque ville a un biome dominant, mais **toutes les T1-T2 sont présentes dans chaque zone starter**.
+
+| Ressource | Biome | Meilleure ville starter | Zones adjacentes |
+|-----------|-------|-------------------------|------------------|
+| **Bois** (Wood) | Forêt | Lymhurst | Starter Forest, zones T2 autour |
+| **Minerai** (Ore) | Montagne | Fort Sterling | Starter Mountain |
+| **Fibre** (Fiber) | Marais | Thetford | Starter Swamp |
+| **Peau** (Hide) | Highlands | Martlock | Starter Highlands |
+| **Pierre** (Stone) | Steppe | Bridgewatch | Starter Steppe |
+
+**Astuce rapide** : tu n'as pas besoin de voyager. La zone starter de ta ville actuelle contient les 5 ressources T2 (en quantité moindre pour celles hors biome). Fais une boucle large — tu ramasses tout sans trier.
+
+### Ordre recommandé
+1. **Récolte d'abord** : ~17 nœuds par profession avec Premium (×1.5 fame). Chaque nœud T2 = ~6 fame avec Premium.
+2. **Stocke les mats** pour le raffinage
+3. **Raffinage T2** à la station adéquate en ville (tanneur, fondeur, tisseur, scierie, tailleur de pierre)
+   - Utilise le **focus** (coût très faible au T2 : 2-5 pts par craft)
+   - Recette T2 : 2 mats T2 + 1 mat T1 inférieur
+4. **Garde tes LP** (Learning Points) pour T5-T6 plus tard — à ce stade c'est du gaspillage
+
+### Indicateurs de réussite
+- Les 10 nœuds T2 terminés (5 récolte + 5 raffinage)
+- Accès ouvert aux outils T3 et à la suite des branches
+
+---
+
 ## Étape 1 — Consolider le T5 (maintenant → 1-2 semaines)
 
 **Objectif** : maîtriser les zones jaunes, préparer le passage au T6.
