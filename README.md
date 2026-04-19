@@ -51,7 +51,7 @@ Mon journal de bord personnel pour Albion Online en solo.
 - [Itinéraires zones rouges](zones/itineraires.md)
 
 ### Outils
-- [🧮 Calculateur (récolte / revente / craft / EV zone rouge)](tools/calculateur/index.html)
+- [🧮 Calculateur — React/TS](tools/calculateur/) (Vite, lancer avec `npm run dev`)
 
 ### Ressources
 - [Lexique FR/EN](lexique.md)
