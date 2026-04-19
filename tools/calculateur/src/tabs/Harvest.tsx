@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { buildResourceItemId, fetchPrice } from '../lib/api';
 import { fmt, salesTax, SETUP_FEE, timeAgo } from '../lib/format';
 import { CITIES, type City, type ResourceType, type Server } from '../lib/types';
@@ -13,8 +13,16 @@ import {
   tone,
 } from '../components/UI';
 
-const FAME_BASE: Record<number, number> = { 3: 30, 4: 60, 5: 120, 6: 240, 7: 480, 8: 960 };
-const ENCHANT_MULT = [1, 1.5, 2.25, 3.4, 5];
+// Fame/gather typique observé en jeu, setup apprenti + Premium.
+// À ajuster via le champ éditable.
+const DEFAULT_FAME_PER_GATHER: Record<number, number> = {
+  3: 40,
+  4: 112, // travertin T4 observé (90 apprenti + 7 premium + base)
+  5: 280,
+  6: 850,
+  7: 2_500,
+  8: 7_500,
+};
 
 export function HarvestTab({ server }: { server: Server }) {
   const [resource, setResource] = useState<ResourceType>('ore');
@@ -28,8 +36,18 @@ export function HarvestTab({ server }: { server: Server }) {
   const [city, setCity] = useState<City>('Martlock');
   const [death, setDeath] = useState(5);
   const [setVal, setSetVal] = useState(150_000);
+  const [fameGather, setFameGather] = useState(DEFAULT_FAME_PER_GATHER[5]);
+  const [fameTarget, setFameTarget] = useState(30_000);
+  const [fameOverridden, setFameOverridden] = useState(false);
   const [meta, setMeta] = useState('');
   const [loading, setLoading] = useState(false);
+
+  // Maj fame/gather quand le tier change, sauf si l'utilisateur a overridé
+  useEffect(() => {
+    if (!fameOverridden) {
+      setFameGather(DEFAULT_FAME_PER_GATHER[tier] ?? 40);
+    }
+  }, [tier, fameOverridden]);
 
   const calc = useMemo(() => {
     const unitsPerHour = nodes * perNode;
@@ -38,13 +56,21 @@ export function HarvestTab({ server }: { server: Server }) {
     const netSell = gross * (1 - tax);
     const expectedLoss = (death / 100) * setVal;
     const netAdjusted = netSell - expectedLoss;
-    const famePerHour =
-      unitsPerHour *
-      (FAME_BASE[tier] || 0) *
-      (ENCHANT_MULT[enchant] || 1) *
-      (premium ? 1.5 : 1);
-    return { unitsPerHour, gross, tax, netSell, expectedLoss, netAdjusted, famePerHour };
-  }, [nodes, perNode, price, premium, sellOrder, death, setVal, tier, enchant]);
+    const famePerHour = nodes * fameGather;
+    const gathersNeeded = fameGather > 0 ? fameTarget / fameGather : 0;
+    const hoursNeeded = nodes > 0 ? gathersNeeded / nodes : 0;
+    return {
+      unitsPerHour,
+      gross,
+      tax,
+      netSell,
+      expectedLoss,
+      netAdjusted,
+      famePerHour,
+      gathersNeeded,
+      hoursNeeded,
+    };
+  }, [nodes, perNode, price, premium, sellOrder, death, setVal, fameGather, fameTarget]);
 
   async function refreshPrice() {
     const id = buildResourceItemId(resource, tier, enchant);
@@ -134,6 +160,28 @@ export function HarvestTab({ server }: { server: Server }) {
         </div>
 
         <div className="grid grid-cols-2 gap-3">
+          <Field
+            label="Fame / gather (ton setup)"
+            hint={
+              fameOverridden
+                ? 'Valeur personnalisée'
+                : `Défaut T${tier}. Lis la valeur réelle dans le tooltip Albion et écrase-la ici.`
+            }
+          >
+            <NumberInput
+              value={fameGather}
+              onChange={(n) => {
+                setFameGather(n);
+                setFameOverridden(true);
+              }}
+            />
+          </Field>
+          <Field label="Objectif fame (nœud destiny)">
+            <NumberInput value={fameTarget} onChange={setFameTarget} />
+          </Field>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3">
           <Field label="Proba mort / heure (%)">
             <Slider value={death} onChange={setDeath} min={0} max={80} step={1} unit="%" />
           </Field>
@@ -164,7 +212,17 @@ export function HarvestTab({ server }: { server: Server }) {
           tone={tone(calc.netAdjusted)}
           bold
         />
-        <ResultRow label="Fame / h (est.)" value={fmt(calc.famePerHour)} />
+        <ResultRow label="Fame / h" value={fmt(calc.famePerHour)} />
+        <ResultRow
+          label={`Gathers pour ${fmt(fameTarget)} fame`}
+          value={fmt(calc.gathersNeeded)}
+        />
+        <ResultRow
+          label="Heures de farm estimées"
+          value={`${calc.hoursNeeded.toFixed(1)} h`}
+          tone="pos"
+          bold
+        />
       </div>
     </div>
   );

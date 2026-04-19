@@ -46,6 +46,10 @@
 - [ ] ~300 gathers T3-T5 cumulés
 - [ ] **Nœud Pierre T4 débloqué** ✅
 
+#### Setup observé en jeu : travertin T4 = **112 fame / gather** (90 apprenti + 7 premium + base)
+- [ ] 270 travertins récoltés → 30 000 fame nœud T4 ciblé
+- [ ] Avec Sandwich de Gibier +20% → 134 fame/gather, objectif en ~225 gathers
+
 ### Outils
 - [ ] Pioche T4 craftée (ou achetée)
 - [ ] 100k-200k silver généré pendant le grind
