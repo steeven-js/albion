@@ -34,21 +34,23 @@
 - [ ] Food gathering fame (Sandwich de Gibier)
 - [ ] Potions de soin T3 en poche
 
+### Setup observé : **T4 = 112 fame / gather** (90 apprenti + 7 premium + base)
+_Vérifié sur fer T4 et travertin T4. Le taux dépend du tier + spé, pas de la ressource._
+- Objectif nœud destiny T4 = **30 000 fame** → **~270 gathers T4**
+- Avec Sandwich de Gibier +20% → 134 fame/gather → **~225 gathers**
+- Au-dessus (T5 granite / acier T5) chaque gather compte ~3× plus
+
 ### Minerai (base Fort Sterling — biome Montagne)
 - [ ] 1ère boucle zone bleue T4 adjacente
 - [ ] Zone jaune T5 Montagne identifiée
-- [ ] ~300 gathers T3-T5 cumulés
+- [ ] 270 fers T4 récoltés (ou équivalent T3-T5 mixte)
 - [ ] **Nœud Minerai T4 débloqué** ✅
 
 ### Pierre (base Bridgewatch — biome Steppe)
 - [ ] 1ère boucle zone bleue T3-T4 adjacente
 - [ ] Zone jaune T5 Steppe identifiée
-- [ ] ~300 gathers T3-T5 cumulés
+- [ ] 270 travertins T4 récoltés (ou équivalent T3-T5 mixte)
 - [ ] **Nœud Pierre T4 débloqué** ✅
-
-#### Setup observé en jeu : travertin T4 = **112 fame / gather** (90 apprenti + 7 premium + base)
-- [ ] 270 travertins récoltés → 30 000 fame nœud T4 ciblé
-- [ ] Avec Sandwich de Gibier +20% → 134 fame/gather, objectif en ~225 gathers
 
 ### Outils
 - [ ] Pioche T4 craftée (ou achetée)
