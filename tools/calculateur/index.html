@@ -26,6 +26,13 @@
   .hint { font-size: 0.75rem; color: #64748b; margin-top: 0.15rem; }
   .checkbox-field { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
   .checkbox-field input { width: auto; }
+  .fetch-btn {
+    background: #334155; border: 1px solid #475569; border-radius: 0.375rem;
+    padding: 0.4rem 0.7rem; color: #f1f5f9; cursor: pointer; white-space: nowrap;
+  }
+  .fetch-btn:hover { background: #475569; border-color: #fbbf24; }
+  .fetch-btn:disabled { opacity: 0.5; cursor: wait; }
+  code { background: #1e293b; padding: 0 0.25rem; border-radius: 3px; }
 </style>
 </head>
 <body class="bg-slate-900 text-slate-100 min-h-screen">
@@ -35,6 +42,21 @@
     <h1 class="text-3xl font-bold">🛡️ Albion Calculateur</h1>
     <p class="text-slate-400 text-sm mt-1">Récolte · Revente · Craft · EV zone rouge — tous les paramètres modifiables</p>
   </header>
+
+  <div class="card mb-6 flex flex-wrap items-end gap-4">
+    <div class="field !mb-0" style="min-width:160px">
+      <label>Serveur</label>
+      <select id="api_server">
+        <option value="west" selected>Ouest (Albion West)</option>
+        <option value="east">Est (Albion East)</option>
+        <option value="europe">Europe (Albion Europe)</option>
+      </select>
+    </div>
+    <div class="text-xs text-slate-500 flex-1 min-w-[200px]">
+      Prix fournis par <a href="https://www.albion-online-data.com/" class="underline hover:text-amber-400">AlbionOnline Data Project</a> (alimenté par le Data Client). Les prix peuvent être vieux de quelques heures.
+    </div>
+    <div id="api_status" class="text-xs"></div>
+  </div>
 
   <nav class="flex gap-2 mb-6 border-b border-slate-700 overflow-x-auto">
     <button class="tab-btn active" data-tab="harvest">Récolte</button>
@@ -92,8 +114,22 @@
         </div>
 
         <div class="field">
+          <label>Ville (marché)</label>
+          <select id="h_city">
+            <option>Caerleon</option><option selected>Martlock</option>
+            <option>Bridgewatch</option><option>Lymhurst</option>
+            <option>Fort Sterling</option><option>Thetford</option>
+            <option>Black Market</option>
+          </select>
+        </div>
+
+        <div class="field">
           <label>Prix marché / unité (silver)</label>
-          <input type="number" id="h_price" value="400" />
+          <div class="flex gap-2">
+            <input type="number" id="h_price" value="400" />
+            <button type="button" class="fetch-btn" data-fetch="harvest">🔄</button>
+          </div>
+          <div id="h_price_meta" class="hint"></div>
         </div>
 
         <div class="grid grid-cols-2 gap-3">
@@ -143,20 +179,57 @@
         <h2 class="text-xl font-semibold mb-4">Flipping / Revente</h2>
 
         <div class="field">
-          <label>Nom de l'objet (libre)</label>
-          <input type="text" id="f_name" value="T5 Battleaxe .1"
+          <label>Item ID (ex. T5_2H_AXE, T5_BAG, T4_CAPE)</label>
+          <input type="text" id="f_item" value="T5_2H_AXE"
             class="bg-slate-800 border border-slate-700 rounded px-2 py-2 text-slate-100 w-full" />
+          <div class="hint">Format Albion Data : <code>T[tier]_[nom]</code>. Enchants : ajouter <code>@1</code> à <code>@4</code>.</div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div class="field">
+            <label>Ville A (achat)</label>
+            <select id="f_city_a">
+              <option selected>Caerleon</option><option>Martlock</option>
+              <option>Bridgewatch</option><option>Lymhurst</option>
+              <option>Fort Sterling</option><option>Thetford</option>
+              <option>Black Market</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Ville B (vente)</label>
+            <select id="f_city_b">
+              <option>Caerleon</option><option selected>Martlock</option>
+              <option>Bridgewatch</option><option>Lymhurst</option>
+              <option>Fort Sterling</option><option>Thetford</option>
+              <option>Black Market</option>
+            </select>
+          </div>
         </div>
 
         <div class="grid grid-cols-2 gap-3">
           <div class="field">
             <label>Prix d'achat (ville A)</label>
-            <input type="number" id="f_buy" value="50000" />
+            <div class="flex gap-2">
+              <input type="number" id="f_buy" value="50000" />
+              <button type="button" class="fetch-btn" data-fetch="flip-buy">🔄</button>
+            </div>
+            <div id="f_buy_meta" class="hint"></div>
           </div>
           <div class="field">
             <label>Prix de vente (ville B)</label>
-            <input type="number" id="f_sell" value="75000" />
+            <div class="flex gap-2">
+              <input type="number" id="f_sell" value="75000" />
+              <button type="button" class="fetch-btn" data-fetch="flip-sell">🔄</button>
+            </div>
+            <div id="f_sell_meta" class="hint"></div>
           </div>
+        </div>
+
+        <div class="field">
+          <button type="button" id="f_fetch_both"
+            class="bg-amber-500 hover:bg-amber-400 text-slate-900 font-semibold px-3 py-1.5 rounded text-sm">
+            🔄 Récupérer les 2 villes
+          </button>
         </div>
 
         <div class="field">
@@ -203,9 +276,19 @@
         <h2 class="text-xl font-semibold mb-4">Craft</h2>
 
         <div class="field">
-          <label>Objet crafté (libre)</label>
-          <input type="text" id="c_name" value="T5 Battleaxe"
+          <label>Item ID crafté</label>
+          <input type="text" id="c_item" value="T5_2H_AXE"
             class="bg-slate-800 border border-slate-700 rounded px-2 py-2 text-slate-100 w-full" />
+        </div>
+
+        <div class="field">
+          <label>Ville (marché pour prix vente)</label>
+          <select id="c_city">
+            <option>Caerleon</option><option selected>Martlock</option>
+            <option>Bridgewatch</option><option>Lymhurst</option>
+            <option>Fort Sterling</option><option>Thetford</option>
+            <option>Black Market</option>
+          </select>
         </div>
 
         <div class="field">
@@ -228,7 +311,11 @@
           </div>
           <div class="field">
             <label>Prix de vente</label>
-            <input type="number" id="c_sell" value="95000" />
+            <div class="flex gap-2">
+              <input type="number" id="c_sell" value="95000" />
+              <button type="button" class="fetch-btn" data-fetch="craft">🔄</button>
+            </div>
+            <div id="c_sell_meta" class="hint"></div>
           </div>
         </div>
 
@@ -507,6 +594,119 @@ function recalcAll() {
   recalcRisk();
 }
 recalcAll();
+
+// ==================================================
+// API AlbionOnline Data Project
+// ==================================================
+const API_BASE = {
+  west: 'https://west.albion-online-data.com',
+  east: 'https://east.albion-online-data.com',
+  europe: 'https://europe.albion-online-data.com',
+};
+
+const RESOURCE_BASE = {
+  wood:  'WOOD',
+  ore:   'ORE',
+  fiber: 'FIBER',
+  hide:  'HIDE',
+  stone: 'ROCK',
+  fish:  'FISH_FRESHWATER_ALL_COMMON',
+};
+
+function buildResourceItemId(type, tier, enchant) {
+  const base = RESOURCE_BASE[type];
+  if (!base) return '';
+  const core = `T${tier}_${base}`;
+  if (!enchant || +enchant === 0) return core;
+  return `${core}_LEVEL${enchant}@${enchant}`;
+}
+
+function timeAgo(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  const s = Math.max(0, (Date.now() - d.getTime()) / 1000);
+  if (s < 60) return `${Math.round(s)}s`;
+  if (s < 3600) return `${Math.round(s/60)}min`;
+  if (s < 86400) return `${Math.round(s/3600)}h`;
+  return `${Math.round(s/86400)}j`;
+}
+
+function setStatus(msg, kind = 'info') {
+  const el = $('api_status');
+  const color = kind === 'err' ? '#f87171' : kind === 'ok' ? '#4ade80' : '#94a3b8';
+  el.style.color = color;
+  el.textContent = msg;
+  if (kind !== 'err') setTimeout(() => { if (el.textContent === msg) el.textContent = ''; }, 4000);
+}
+
+async function fetchPrice(itemId, city) {
+  const server = $('api_server').value;
+  const url = `${API_BASE[server]}/api/v2/stats/prices/${encodeURIComponent(itemId)}.json?locations=${encodeURIComponent(city)}&qualities=1`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const data = await res.json();
+  const match = data.find(d => d.city === city && (d.sell_price_min > 0 || d.buy_price_max > 0));
+  if (!match) throw new Error('Pas de donnée pour ' + city);
+  return {
+    sell_min: match.sell_price_min,
+    sell_date: match.sell_price_min_date,
+    buy_max: match.buy_price_max,
+    buy_date: match.buy_price_max_date,
+  };
+}
+
+async function doFetch(which) {
+  const btns = document.querySelectorAll('.fetch-btn');
+  btns.forEach(b => b.disabled = true);
+  try {
+    if (which === 'harvest') {
+      const id = buildResourceItemId($('h_resource').value, $('h_tier').value, $('h_enchant').value);
+      const p = await fetchPrice(id, $('h_city').value);
+      if (p.sell_min) {
+        $('h_price').value = p.sell_min;
+        $('h_price_meta').textContent = `${id} · sell min ${fmt(p.sell_min)} · maj il y a ${timeAgo(p.sell_date)}`;
+      } else {
+        $('h_price_meta').textContent = `${id} · aucune sell order`;
+      }
+    }
+    else if (which === 'flip-buy') {
+      const p = await fetchPrice($('f_item').value.trim(), $('f_city_a').value);
+      if (p.sell_min) {
+        $('f_buy').value = p.sell_min;
+        $('f_buy_meta').textContent = `sell min ${fmt(p.sell_min)} · il y a ${timeAgo(p.sell_date)}`;
+      }
+    }
+    else if (which === 'flip-sell') {
+      const p = await fetchPrice($('f_item').value.trim(), $('f_city_b').value);
+      if (p.sell_min) {
+        $('f_sell').value = p.sell_min;
+        $('f_sell_meta').textContent = `sell min ${fmt(p.sell_min)} · il y a ${timeAgo(p.sell_date)}`;
+      }
+    }
+    else if (which === 'craft') {
+      const p = await fetchPrice($('c_item').value.trim(), $('c_city').value);
+      if (p.sell_min) {
+        $('c_sell').value = p.sell_min;
+        $('c_sell_meta').textContent = `sell min ${fmt(p.sell_min)} · il y a ${timeAgo(p.sell_date)}`;
+      }
+    }
+    setStatus('✅ Prix mis à jour', 'ok');
+    recalcAll();
+  } catch (e) {
+    setStatus('❌ ' + e.message + ' (CORS ? item ID invalide ?)', 'err');
+  } finally {
+    btns.forEach(b => b.disabled = false);
+  }
+}
+
+document.querySelectorAll('.fetch-btn').forEach(b => {
+  b.addEventListener('click', () => doFetch(b.dataset.fetch));
+});
+
+$('f_fetch_both').addEventListener('click', async () => {
+  await doFetch('flip-buy');
+  await doFetch('flip-sell');
+});
 </script>
 </body>
 </html>
