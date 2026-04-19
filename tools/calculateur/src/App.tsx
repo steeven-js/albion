@@ -3,14 +3,16 @@ import { HarvestTab } from './tabs/Harvest';
 import { FlipTab } from './tabs/Flip';
 import { CraftTab } from './tabs/Craft';
 import { RiskTab } from './tabs/Risk';
+import { FarmTab } from './tabs/Farm';
 import { Guide } from './guide/Guide';
 import type { Server } from './lib/types';
 import { Field, Select } from './components/UI';
 
 type Mode = 'calc' | 'guide';
-type CalcTab = 'harvest' | 'flip' | 'craft' | 'risk';
+type CalcTab = 'farm' | 'harvest' | 'flip' | 'craft' | 'risk';
 
 const CALC_TABS: { id: CalcTab; label: string }[] = [
+  { id: 'farm', label: '🌾 Farm' },
   { id: 'harvest', label: 'Récolte' },
   { id: 'flip', label: 'Revente' },
   { id: 'craft', label: 'Craft' },
@@ -19,7 +21,7 @@ const CALC_TABS: { id: CalcTab; label: string }[] = [
 
 export function App() {
   const [mode, setMode] = useState<Mode>('calc');
-  const [tab, setTab] = useState<CalcTab>('harvest');
+  const [tab, setTab] = useState<CalcTab>('farm');
   const [server, setServer] = useState<Server>('west');
 
   return (
@@ -97,6 +99,7 @@ export function App() {
             ))}
           </nav>
 
+          {tab === 'farm' && <FarmTab />}
           {tab === 'harvest' && <HarvestTab server={server} />}
           {tab === 'flip' && <FlipTab server={server} />}
           {tab === 'craft' && <CraftTab server={server} />}
