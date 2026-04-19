@@ -12,6 +12,7 @@ import {
   Slider,
   tone,
 } from '../components/UI';
+import { ItemIcon } from '../components/ItemIcon';
 
 // Fame/gather typique observé en jeu, setup apprenti + Premium.
 // À ajuster via le champ éditable.
@@ -91,10 +92,18 @@ export function HarvestTab({ server }: { server: Server }) {
     }
   }
 
+  const itemId = buildResourceItemId(resource, tier, enchant);
+
   return (
     <div className="grid md:grid-cols-2 gap-6">
       <div className="card">
-        <h2 className="text-xl font-semibold mb-4">Paramètres récolte</h2>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-semibold">Paramètres récolte</h2>
+          <div className="flex items-center gap-2 bg-slate-800 rounded-lg px-3 py-1.5">
+            <ItemIcon id={itemId} size={40} />
+            <code className="text-xs text-amber-300">{itemId}</code>
+          </div>
+        </div>
 
         <Field label="Ressource">
           <Select

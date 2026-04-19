@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { GUIDE_SECTIONS, resolveGuideSlug, type GuideEntry } from './content';
+import { rehypeItemIcons } from './rehype-item-icons';
 
 const ALL_ENTRIES: GuideEntry[] = GUIDE_SECTIONS.flatMap((s) => s.entries);
 
@@ -74,6 +75,7 @@ export function Guide() {
       <article ref={articleRef} className="card markdown">
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}
+          rehypePlugins={[rehypeItemIcons]}
           components={{
             a: ({ href, children, ...props }) => {
               const target = resolveGuideSlug(href);

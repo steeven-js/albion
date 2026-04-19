@@ -75,3 +75,11 @@ input[type='range'] {
   @apply accent-amber-400 mr-1 align-middle;
 }
 .markdown img { @apply max-w-full rounded my-4; }
+.markdown img.item-icon-inline {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  margin: 0 2px -6px 4px;
+  vertical-align: baseline;
+  border-radius: 3px;
+}

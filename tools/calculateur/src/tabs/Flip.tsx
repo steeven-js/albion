@@ -13,6 +13,7 @@ import {
   TextInput,
   tone,
 } from '../components/UI';
+import { ItemIcon } from '../components/ItemIcon';
 
 export function FlipTab({ server }: { server: Server }) {
   const [item, setItem] = useState('T5_2H_AXE');
@@ -77,7 +78,13 @@ export function FlipTab({ server }: { server: Server }) {
   return (
     <div className="grid md:grid-cols-2 gap-6">
       <div className="card">
-        <h2 className="text-xl font-semibold mb-4">Flipping / Revente</h2>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-semibold">Flipping / Revente</h2>
+          <div className="flex items-center gap-2 bg-slate-800 rounded-lg px-3 py-1.5">
+            <ItemIcon id={item.trim()} size={40} />
+            <code className="text-xs text-amber-300">{item.trim() || '—'}</code>
+          </div>
+        </div>
 
         <Field
           label="Item ID"
