@@ -25,6 +25,33 @@
 
 ---
 
+## 🆕 Grind T3 → T4 (minerai + pierre)
+
+### Setup
+- [ ] Pioche T3 équipée
+- [ ] Sac T3+ (capacité transport)
+- [ ] Monture (bœuf de transport ou cheval T3)
+- [ ] Food gathering fame (Sandwich de Gibier)
+- [ ] Potions de soin T3 en poche
+
+### Minerai (base Fort Sterling — biome Montagne)
+- [ ] 1ère boucle zone bleue T4 adjacente
+- [ ] Zone jaune T5 Montagne identifiée
+- [ ] ~300 gathers T3-T5 cumulés
+- [ ] **Nœud Minerai T4 débloqué** ✅
+
+### Pierre (base Bridgewatch — biome Steppe)
+- [ ] 1ère boucle zone bleue T3-T4 adjacente
+- [ ] Zone jaune T5 Steppe identifiée
+- [ ] ~300 gathers T3-T5 cumulés
+- [ ] **Nœud Pierre T4 débloqué** ✅
+
+### Outils
+- [ ] Pioche T4 craftée (ou achetée)
+- [ ] 100k-200k silver généré pendant le grind
+
+---
+
 ## Setup de base
 
 - [ ] Premium actif

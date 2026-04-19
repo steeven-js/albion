@@ -40,6 +40,67 @@ Chaque ville a un biome dominant, mais **toutes les T1-T2 sont présentes dans c
 
 ---
 
+## Étape 0.5 — Spé Minerai + Pierre T3 → T4 🆕
+
+**Objectif** : débloquer **Pioche T4** pour les deux ressources. Focus sur **Minerai** (prix marché le plus constant) et **Pierre** (peu disputée, farm tranquille).
+
+**Fame requise par nœud** : ~7 500 à 15 000 fame T3 (varie selon la profession). Avec Premium ×1.5 et buff food +20%, compte **~300-400 gathers T3** ou **~60-80 gathers T4/T5** sur le trajet.
+
+### Setup avant de sortir
+
+- [ ] **Pioche T3** équipée (outil unique pour minerai ET pierre)
+- [ ] **Sac T3+** (capacité de charge pour la boucle)
+- [ ] **Monture** (bœuf de transport idéal, ou cheval T3)
+- [ ] **Food** : Sandwich de Gibier (+20% gathering fame, dispo au marché)
+- [ ] Potion de soin T3 (zone jaune = KO possible)
+- [ ] Bulle de retour (Hearthsprite) si activée
+
+### Route Minerai — base Fort Sterling (biome Montagne)
+
+Le continent royal autour de Fort Sterling est **biome Montagne** → densité max de nœuds minerai.
+
+1. **Départ** : Fort Sterling (ville)
+2. **Zone 1** : première zone bleue T4 adjacente → farm tout minerai T3-T4
+3. **Zone 2** : zone jaune T5 plus loin → nœuds T4-T5 denses, plus de fame
+4. **Retour** : dépose les mats à la banque, vends les surplus
+5. Re-loop après 10-15 min (respawn partiel)
+
+**Astuce map** : survole une zone avec M → tu vois son tier et son biome. Cherche "T5 Yellow Zone · Mountain".
+
+### Route Pierre — base Bridgewatch (biome Steppe)
+
+Moins farmée, donc nœuds moins disputés.
+
+1. **Départ** : Bridgewatch (ville)
+2. **Zone 1** : zone bleue T3-T4 adjacente → pierre T3 abondante
+3. **Zone 2** : zone jaune T4-T5 Steppe → nœuds gros volume
+4. Retour banque puis re-loop
+
+### Ordre conseillé
+
+Fais **une ressource à fond d'abord** plutôt que les deux en parallèle :
+
+1. **Semaine 1** : Minerai T3 → T4 (~3-5h de farm étalées)
+2. **Semaine 2** : Pierre T3 → T4 (~3-5h)
+
+Raison : un seul biome à apprendre à la fois, et tu peux raffiner/vendre en lot. Quand tu tapes T5 minerai plus tard, la fame bonus retombera aussi sur pierre si tu as les deux trees ouverts.
+
+### Rentabilité en silver (indicatif, à vérifier dans le calculateur)
+
+| Ressource | Prix T3/unité | Prix T4/unité | Silver/h estimé (T3 outil, zone T4-T5) |
+|-----------|---------------|---------------|----------------------------------------|
+| Minerai   | 40-60 s       | 150-250 s     | 60k-100k                               |
+| Pierre    | 20-30 s       | 80-120 s      | 40k-70k                                |
+
+**Conseil** : vends tout sauf ce dont tu as besoin pour tes propres crafts. Utilise l'onglet **🧮 Calculateur → Récolte** de l'app pour ajuster tes estimations avec les prix réels du marché.
+
+### Indicateurs de réussite
+- Pioche T4 craftable (tu as la spé)
+- 100-200k silver généré pendant le grind
+- Quelques runes T3-T4 en stock (drop passif)
+
+---
+
 ## Étape 1 — Consolider le T5 (maintenant → 1-2 semaines)
 
 **Objectif** : maîtriser les zones jaunes, préparer le passage au T6.
