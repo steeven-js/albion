@@ -25,37 +25,49 @@ const RESOURCE_LABEL: Record<ResourceType, string> = {
 };
 
 const TIER_RESOURCE_NAME: Record<string, string> = {
-  'wood-3': 'Pin',
-  'wood-4': 'Châtaignier',
+  // Bois
+  'wood-2': 'Bouleau',
+  'wood-3': 'Châtaignier',
+  'wood-4': 'Pin',
   'wood-5': 'Cèdre',
-  'wood-6': 'Bloodoak',
-  'wood-7': 'Frêne',
-  'wood-8': 'Fleur de vie',
+  'wood-6': 'Chêne sanglant',
+  'wood-7': 'Frênecendre',
+  'wood-8': 'Bois blanc',
+  // Minerai
+  'ore-2': 'Étain',
   'ore-3': 'Cuivre',
   'ore-4': 'Fer',
-  'ore-5': 'Acier',
-  'ore-6': 'Titane',
-  'ore-7': 'Runite',
-  'ore-8': 'Météorite',
-  'fiber-3': 'Coton',
+  'ore-5': 'Titane',
+  'ore-6': 'Runite',
+  'ore-7': 'Météorite',
+  'ore-8': 'Adamantium',
+  // Fibre
+  'fiber-2': 'Coton',
+  'fiber-3': 'Lin',
   'fiber-4': 'Chanvre',
-  'fiber-5': 'Lin',
-  'fiber-6': 'Rougegarde',
-  'fiber-7': 'Soie',
-  'fiber-8': 'Toile d\'araignée',
-  'hide-3': 'Lapin',
+  'fiber-5': 'Fleur de sang',
+  'fiber-6': 'Rougecante',
+  'fiber-7': 'Chrysanthème',
+  'fiber-8': 'Coton fantôme',
+  // Peau
+  'hide-2': 'Lapin',
+  'hide-3': 'Loup',
   'hide-4': 'Cerf',
   'hide-5': 'Ours',
-  'hide-6': 'Kéiran',
-  'hide-7': 'Dragonet',
-  'hide-8': 'Dragon',
+  'hide-6': 'Keeper',
+  'hide-7': 'Loup-garou',
+  'hide-8': 'Spectral',
+  // Pierre
+  'stone-2': 'Pierre grossière',
   'stone-3': 'Calcaire',
   'stone-4': 'Travertin',
   'stone-5': 'Granite',
   'stone-6': 'Basalte',
   'stone-7': 'Marbre',
-  'stone-8': 'Onyx',
+  'stone-8': 'Obsidienne',
 };
+
+const ALL_TIERS = [2, 3, 4, 5, 6, 7, 8] as const;
 
 type FarmResource = Exclude<ResourceType, 'fish'>;
 const FARM_RESOURCES: FarmResource[] = ['wood', 'ore', 'fiber', 'hide', 'stone'];
@@ -144,7 +156,15 @@ export function FarmTab() {
     }
   }
 
+  function selectResource(r: FarmResource, t: number) {
+    setResource(r);
+    setTier(t);
+    setTierOverridden(false); // reprise du défaut fame/gather pour le tier
+    setGathers(0);
+  }
+
   return (
+    <div className="space-y-6">
     <div className="grid md:grid-cols-2 gap-6">
       <div className="card">
         <div className="flex items-center justify-between mb-4">
@@ -267,6 +287,75 @@ export function FarmTab() {
           Sauvegarde auto (localStorage) — reprends ta session après un refresh
         </div>
       </div>
+    </div>
+
+    <div className="card">
+      <div className="flex items-center justify-between mb-3">
+        <h2 className="text-xl font-semibold">Toutes les ressources</h2>
+        <div className="text-xs text-slate-500">Clique sur une ressource pour la cibler</div>
+      </div>
+      <div className="overflow-x-auto">
+        <table className="w-full border-separate border-spacing-1">
+          <thead>
+            <tr>
+              <th className="text-left text-xs text-slate-400 uppercase tracking-wider px-2 py-1">
+                Type
+              </th>
+              {ALL_TIERS.map((t) => (
+                <th
+                  key={t}
+                  className="text-center text-xs text-slate-400 uppercase tracking-wider px-2 py-1"
+                >
+                  T{t}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {FARM_RESOURCES.map((r) => (
+              <tr key={r}>
+                <td className="text-sm font-semibold text-slate-200 px-2 py-1 whitespace-nowrap">
+                  {RESOURCE_LABEL[r]}
+                  <div className="text-xs text-slate-500 font-normal">{BIOME[r].biome}</div>
+                </td>
+                {ALL_TIERS.map((t) => {
+                  const id = buildResourceItemId(r, t, 0);
+                  const name = TIER_RESOURCE_NAME[`${r}-${t}`] ?? `T${t}`;
+                  const isActive = resource === r && tier === t;
+                  return (
+                    <td key={t} className="p-0">
+                      <button
+                        type="button"
+                        onClick={() => selectResource(r, t)}
+                        className={`w-full flex flex-col items-center gap-1 p-2 rounded transition-colors ${
+                          isActive
+                            ? 'bg-amber-500/20 ring-2 ring-amber-400'
+                            : 'hover:bg-slate-800'
+                        }`}
+                        title={`${name} (${id}) · défaut ${DEFAULT_FAME_PER_GATHER[t] ?? '?'} fame/gather`}
+                      >
+                        <ItemIcon id={id} size={40} />
+                        <span
+                          className={`text-xs text-center leading-tight ${
+                            isActive ? 'text-amber-300 font-semibold' : 'text-slate-400'
+                          }`}
+                        >
+                          {name}
+                        </span>
+                      </button>
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div className="text-xs text-slate-500 mt-3">
+        Fame/gather par défaut : T2 ≈ 45 · T3 ≈ 75 · <strong>T4 = 112</strong> · T5 ≈ 280 · T6 ≈ 850 · T7 ≈ 2 500 · T8 ≈ 7 500.
+        Ces valeurs supposent Premium actif + spé apprenti ; édite le champ "Fame / gather" pour coller ta valeur réelle.
+      </div>
+    </div>
     </div>
   );
 }
