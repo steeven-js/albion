@@ -1,18 +1,24 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { GUIDE_SECTIONS, type GuideEntry } from './content';
+import { GUIDE_SECTIONS, resolveGuideSlug, type GuideEntry } from './content';
 
 const ALL_ENTRIES: GuideEntry[] = GUIDE_SECTIONS.flatMap((s) => s.entries);
 
 export function Guide() {
   const [slug, setSlug] = useState<string>('readme');
   const [query, setQuery] = useState('');
+  const articleRef = useRef<HTMLElement>(null);
 
   const current = useMemo(
     () => ALL_ENTRIES.find((e) => e.slug === slug) ?? ALL_ENTRIES[0],
     [slug],
   );
+
+  // Scroll en haut quand on change de page
+  useEffect(() => {
+    articleRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [slug]);
 
   const filteredSections = useMemo(() => {
     if (!query.trim()) return GUIDE_SECTIONS;
@@ -65,8 +71,36 @@ export function Guide() {
         )}
       </aside>
 
-      <article className="card markdown">
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>{current.content}</ReactMarkdown>
+      <article ref={articleRef} className="card markdown">
+        <ReactMarkdown
+          remarkPlugins={[remarkGfm]}
+          components={{
+            a: ({ href, children, ...props }) => {
+              const target = resolveGuideSlug(href);
+              if (target) {
+                return (
+                  <a
+                    href={`#${target}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setSlug(target);
+                    }}
+                    {...props}
+                  >
+                    {children}
+                  </a>
+                );
+              }
+              return (
+                <a href={href} target="_blank" rel="noreferrer" {...props}>
+                  {children}
+                </a>
+              );
+            },
+          }}
+        >
+          {current.content}
+        </ReactMarkdown>
       </article>
     </div>
   );

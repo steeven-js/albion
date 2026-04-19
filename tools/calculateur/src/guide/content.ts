@@ -82,3 +82,30 @@ export const GUIDE_SECTIONS: GuideSection[] = [
     ],
   },
 ];
+
+// Map "chemin .md tel qu'écrit dans les liens markdown" → slug guide
+export const MD_PATH_TO_SLUG: Record<string, string> = {
+  'README.md': 'readme',
+  'lexique.md': 'lexique',
+  'liens-utiles.md': 'liens',
+  'builds/hache-de-guerre-pve.md': 'hache',
+  'builds/gathering-setup.md': 'gathering',
+  'builds/sets-rechange.md': 'sets',
+  'economie/prix-marche.md': 'prix',
+  'economie/runes-artefacts.md': 'runes',
+  'economie/flipping-notes.md': 'flipping',
+  'progression/roadmap.md': 'roadmap',
+  'progression/checklist.md': 'checklist',
+  'progression/journal.md': 'journal',
+  'zones/mists-hunter.md': 'mists',
+  'zones/donjons-solo.md': 'donjons',
+  'zones/itineraires.md': 'itineraires',
+};
+
+/** Résout un href markdown vers un slug guide, ou null si lien externe. */
+export function resolveGuideSlug(href: string | undefined): string | null {
+  if (!href) return null;
+  // Normalise : retire ./ et ../, garde juste le chemin relatif au repo
+  const cleaned = href.replace(/^\.?\/+/, '').replace(/^(\.\.\/)+/, '').split('#')[0]!.split('?')[0]!;
+  return MD_PATH_TO_SLUG[cleaned] ?? null;
+}
