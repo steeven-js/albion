@@ -4,24 +4,23 @@
 
 ---
 
-## 🆕 Destiny Board — Démarrage T2
+## ✅ Destiny Board — Démarrage T2 _(accompli)_
 
-> Objectif : débloquer les 10 premiers nœuds (5 récolte + 5 raffinage) à 100 fame chacun.
-> Temps estimé avec Premium : **30-45 min**.
+> Les 10 premiers nœuds T2 sont débloqués. Section gardée comme archive.
 
-### Récolte T2 (starter zone, biome indiqué = meilleur rendement)
-- [ ] **Bois** T2 — faucille/hache — biome Forêt (Lymhurst)
-- [ ] **Minerai** T2 — pioche — biome Montagne (Fort Sterling)
-- [ ] **Fibre** T2 — faucille — biome Marais (Thetford)
-- [ ] **Peau** T2 — couteau d'écorcheur — biome Highlands (Martlock)
-- [ ] **Pierre** T2 — pioche — biome Steppe (Bridgewatch)
+### Récolte T2
+- [x] **Bois** T2 — faucille/hache — biome Forêt (Lymhurst)
+- [x] **Minerai** T2 — pioche — biome Montagne (Fort Sterling)
+- [x] **Fibre** T2 — faucille — biome Marais (Thetford)
+- [x] **Peau** T2 — couteau d'écorcheur — biome Highlands (Martlock)
+- [x] **Pierre** T2 — pioche — biome Steppe (Bridgewatch)
 
-### Raffinage T2 (station en ville, pense au focus)
-- [ ] **Planches** T2 (scierie)
-- [ ] **Lingot** T2 (fondeur)
-- [ ] **Tissu** T2 (tisseur)
-- [ ] **Cuir** T2 (tanneur)
-- [ ] **Bloc de pierre** T2 (tailleur de pierre)
+### Raffinage T2
+- [x] **Planches** T2 (scierie)
+- [x] **Lingot** T2 (fondeur)
+- [x] **Tissu** T2 (tisseur)
+- [x] **Cuir** T2 (tanneur)
+- [x] **Bloc de pierre** T2 (tailleur de pierre)
 
 ---
 
